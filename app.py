@@ -283,9 +283,9 @@ def load_lottieurl(url: str):
 @st.cache_resource
 def load_ai_detection_model():
     try:
-        with open('logistic_regression_model (1).pkl', 'rb') as model_file:
+        with open('logistic_regression_model.pkl', 'rb') as model_file:
             model = pickle.load(model_file)
-        with open('tfidf_vectorizer (1).pkl', 'rb') as vectorizer_file:
+        with open('tfidf_vectorizer.pkl', 'rb') as vectorizer_file:
             vectorizer = pickle.load(vectorizer_file)
         return model, vectorizer
     except Exception as e:
