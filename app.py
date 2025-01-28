@@ -329,7 +329,7 @@ def analyze_ai_content(text, model, vectorizer):
 lottie_news = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_zdtukd5q.json")
 
 # Main application layout
-st.markdown('<h1 class="main-title">🌟 Advanced News Analysis Hub</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-title">🌟 Verifact- Advanced News Analysis Hub</h1>', unsafe_allow_html=True)
 st_lottie(lottie_news, height=300, key="news_animation")
 
 # Input section
