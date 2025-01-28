@@ -1,13 +1,10 @@
 credentials:
   usernames:
-    admin:
-      email: admin@domain.com
-      name: Admin User
-      password: your_hashed_password # Use stauth.Hasher(['your_password']).generate()
+    jsmith:
+      email: jsmith@gmail.com
+      name: John Smith
+      password: abc # This should be hashed using stauth.Hasher(['abc']).generate()[0]
 cookie:
   expiry_days: 30
-  key: random_signature_key
-  name: random_cookie_name
-preauthorized:
-  emails:
-  - admin@domain.com
+  key: some_signature_key
+  name: some_cookie_name
