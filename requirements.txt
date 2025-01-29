@@ -18,4 +18,4 @@ pillow
 altair
 watchdog
 openai
-urllib
+urllib3
