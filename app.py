@@ -539,16 +539,10 @@ if st.session_state.history:
         st.experimental_rerun()
 
 
-st.markdown("---")
+st.markdown("---")  # Add a visual separator
 st.markdown("### 🔗 URL Verification")
 
-# Add decorative image instead of white space
-st.markdown("""
-    <div style='text-align: center; margin: 20px 0;'>
-        <img src="/api/placeholder/800/200" alt="News Verification Banner" style="width: 100%; border-radius: 10px; margin-bottom: 20px;"/>
-    </div>
-""", unsafe_allow_html=True)
-
+# Create a container for URL verification
 with st.container():
     st.markdown("""
     <div class="card">
@@ -557,33 +551,34 @@ with st.container():
     </div>
     """, unsafe_allow_html=True)
     
-    # Single column layout for URL input
-    url_input = st.text_input(
-        "Enter news URL:",
-        placeholder="https://www.example.com/news-article",
-        key="url_input"
-    )
+    # Create two columns for URL input and verification button
+    url_col, verify_col = st.columns([3, 1])
     
-    # Center the verify button below the input
-    with col2:
+    with url_col:
+        url_input = st.text_input(
+            "Enter news URL:",
+            placeholder="https://www.example.com/news-article",
+            key="url_input"
+        )
+    
+    with verify_col:
         verify_button = st.button("🔍 Verify URL", key="verify_url_button", use_container_width=True)
 
     if verify_button and url_input:
-        try:
-            with st.spinner("Verifying URL..."):
-                verifier = get_verifier()
-                result = verifier.verify_url(url_input)
-                
-                if result == "REAL":
-                    st.success("✅ This appears to be a legitimate news article from a trusted source.")
-                else:
-                    st.error("❌ This URL may not be from a trusted news source or the article might not exist.")
-                
-                st.session_state.history.append({
-                    'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
-                    'analysis_type': 'URL Verification',
-                    'result': result,
-                    'text_snippet': url_input
-                })
-        except Exception as e:
-            st.error(f"Error verifying URL: {str(e)}")
+        with st.spinner("Verifying URL..."):
+            verifier = NewsVerifier()
+            result = verifier.verify_url(url_input)
+            
+            # Display result with appropriate styling
+            if result == "REAL":
+                st.success("✅ This appears to be a legitimate news article from a trusted source.")
+            else:
+                st.error("❌ This URL may not be from a trusted news source or the article might not exist.")
+            
+            # Add to history
+            st.session_state.history.append({
+                'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+                'analysis_type': 'URL Verification',
+                'result': result,
+                'text_snippet': url_input
+            })
