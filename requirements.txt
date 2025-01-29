@@ -19,4 +19,4 @@ altair
 watchdog
 openai
 urllib
-requests
+
