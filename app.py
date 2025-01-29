@@ -546,8 +546,8 @@ st.markdown("### 🔗 URL Verification")
 with st.container():
     st.markdown("""
     <div class="card">
-        <h4>Verify News URL</h4>
-        <p>Enter a news URL to verify if it's from a legitimate news source and if the article exists.</p>
+        <h4 style="color:black;">Verify News URL</h4>
+        <p style = "color: black;">Enter a news URL to verify if it's from a legitimate news source and if the article exists.</p>
     </div>
     """, unsafe_allow_html=True)
     
