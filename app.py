@@ -343,7 +343,7 @@ with st.container():
     )
 
 # Create columns for buttons
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 
 def analyze_fake_news(text, model, tokenizer):
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=512)
@@ -364,6 +364,28 @@ def generate_headline(text, model, tokenizer):
         early_stopping=True
     )
     return tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+import os
+from openai import OpenAI
+
+# Set your OpenAI API key
+os.environ["OPENAI_API_KEY"] = "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"  # Replace with your actual API key
+
+client = OpenAI()
+
+def generate_tweet(article_text):
+    """Generate a tweet from article text using OpenAI API"""
+    try:
+        prompt = f"Generate a tweet based on the following article: {article_text}"
+        response = client.completions.create(
+            model=config['openai_settings']['model'],
+            prompt=prompt,
+            temperature=config['openai_settings']['temperature']
+        )
+        return response.choices[0].text.strip()
+    except Exception as e:
+        st.error(f"Error generating tweet: {str(e)}")
+        return None
 
 # Initialize session state for history if it doesn't exist
 if 'history' not in st.session_state:
@@ -416,6 +438,23 @@ with col3:
                     'result': headline,
                     'text_snippet': article_text[:100] + '...'
                 })
+
+
+with col4:
+    if st.button("🐦 Generate Tweet", use_container_width=True):
+        if article_text:
+            with st.spinner("Generating tweet..."):
+                tweet = generate_tweet(article_text)
+                if tweet:
+                    st.success("Generated Tweet:")
+                    st.markdown(f"### {tweet}")
+                    # Add to history
+                    st.session_state.history.append({
+                        'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+                        'analysis_type': 'Tweet Generation',
+                        'result': tweet,
+                        'text_snippet': article_text[:100] + '...'
+                    })
 
 # History section with improved visualization
 if st.session_state.history:
