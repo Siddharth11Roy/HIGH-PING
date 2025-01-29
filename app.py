@@ -561,7 +561,7 @@ with st.container():
             key="url_input"
         )
     
-    with verify_col:
+    with url_col:
         verify_button = st.button("🔍 Verify URL", key="verify_url_button", use_container_width=True)
 
     if verify_button and url_input:
