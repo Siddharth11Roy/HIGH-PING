@@ -545,7 +545,7 @@ st.markdown("### 🔗 URL Verification")
 # Create a container for URL verification
 with st.container():
     st.markdown("""
-    <div class="card" style="background-color: orange; padding: 15px; border-radius: 10px;text-align: center;">
+    <div class="card" style="background-color: orange; padding: 15px; border-radius: 10px;text-align: center; border: 3px solid blue;">
         <h4 style="color:black;">Verify News URL</h4>
         <p style = "color: black;">Enter a news URL to verify if it's from a legitimate news source and if the article exists.</p>
     </div>
