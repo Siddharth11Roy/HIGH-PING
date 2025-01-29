@@ -324,45 +324,6 @@ def analyze_ai_content(text, model, vectorizer):
     except Exception as e:
         st.error(f"Error in AI content analysis: {str(e)}")
         return None
-def verify_url(self, url):
-        try:
-            if not url.startswith(('http://', 'https://')):
-                url = 'https://' + url
-            
-            domain = urlparse(url).netloc.lower()
-            if domain.startswith('www.'):
-                domain = domain[4:]
-            
-            is_news_domain = any(domain.endswith(news_domain) for news_domain in self.news_domains)
-            
-            if not is_news_domain:
-                return "FAKE"
-            
-            response = requests.get(
-                url, 
-                timeout=10,
-                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
-            )
-            
-            return "REAL" if response.status_code == 200 else "FAKE"
-        except requests.exceptions.RequestException:
-            return "FAKE"
-
-
-class NewsVerifier:
-    def __init__(self):
-        self.news_domains = {
-            'reuters.com',
-            'apnews.com',
-            'bbc.com',
-            'nytimes.com',
-            'cnn.com',
-            'theguardian.com',
-            'wsj.com',
-            'bloomberg.com',
-            'washingtonpost.com',
-            'aljazeera.com',
-        }
 
 
 # Load animations
@@ -482,6 +443,46 @@ with col4:
                         'result': tweet,
                         'text_snippet': article_text[:100] + '...'
                     })
+
+
+class NewsVerifier:
+    def __init__(self):
+        self.news_domains = {
+            'reuters.com',
+            'apnews.com',
+            'bbc.com',
+            'nytimes.com',
+            'cnn.com',
+            'theguardian.com',
+            'wsj.com',
+            'bloomberg.com',
+            'washingtonpost.com',
+            'aljazeera.com',
+        }
+
+    def verify_url(self, url):
+        try:
+            if not url.startswith(('http://', 'https://')):
+                url = 'https://' + url
+            
+            domain = urlparse(url).netloc.lower()
+            if domain.startswith('www.'):
+                domain = domain[4:]
+            
+            is_news_domain = any(domain.endswith(news_domain) for news_domain in self.news_domains)
+            
+            if not is_news_domain:
+                return "FAKE"
+            
+            response = requests.get(
+                url, 
+                timeout=10,
+                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+            )
+            
+            return "REAL" if response.status_code == 200 else "FAKE"
+        except requests.exceptions.RequestException:
+            return "FAKE"
 
 # History section with improved visualization
 if st.session_state.history:
