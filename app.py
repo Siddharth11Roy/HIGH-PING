@@ -324,24 +324,7 @@ def analyze_ai_content(text, model, vectorizer):
     except Exception as e:
         st.error(f"Error in AI content analysis: {str(e)}")
         return None
-
-
-class NewsVerifier:
-    def __init__(self):
-        self.news_domains = {
-            'reuters.com',
-            'apnews.com',
-            'bbc.com',
-            'nytimes.com',
-            'cnn.com',
-            'theguardian.com',
-            'wsj.com',
-            'bloomberg.com',
-            'washingtonpost.com',
-            'aljazeera.com',
-        }
-
-    def verify_url(self, url):
+def verify_url(self, url):
         try:
             if not url.startswith(('http://', 'https://')):
                 url = 'https://' + url
@@ -364,6 +347,23 @@ class NewsVerifier:
             return "REAL" if response.status_code == 200 else "FAKE"
         except requests.exceptions.RequestException:
             return "FAKE"
+
+
+class NewsVerifier:
+    def __init__(self):
+        self.news_domains = {
+            'reuters.com',
+            'apnews.com',
+            'bbc.com',
+            'nytimes.com',
+            'cnn.com',
+            'theguardian.com',
+            'wsj.com',
+            'bloomberg.com',
+            'washingtonpost.com',
+            'aljazeera.com',
+        }
+
 
 # Load animations
 lottie_news = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_zdtukd5q.json")
