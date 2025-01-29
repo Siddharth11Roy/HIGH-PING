@@ -569,20 +569,21 @@ with st.container():
         verify_button = st.button("🔍 Verify URL", key="verify_url_button", use_container_width=True)
 
     if verify_button and url_input:
-        with st.spinner("Verifying URL..."):
-            verifier = NewsVerifier()
-            result = verifier.verify_url(url_input)
-            
-            # Display result with appropriate styling
-            if result == "REAL":
-                st.success("✅ This appears to be a legitimate news article from a trusted source.")
-            else:
-                st.error("❌ This URL may not be from a trusted news source or the article might not exist.")
-            
-            # Add to history
-            st.session_state.history.append({
-                'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
-                'analysis_type': 'URL Verification',
-                'result': result,
-                'text_snippet': url_input
-            })
+        try:
+            with st.spinner("Verifying URL..."):
+                verifier = get_verifier()
+                result = verifier.verify_url(url_input)
+                
+                if result == "REAL":
+                    st.success("✅ This appears to be a legitimate news article from a trusted source.")
+                else:
+                    st.error("❌ This URL may not be from a trusted news source or the article might not exist.")
+                
+                st.session_state.history.append({
+                    'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+                    'analysis_type': 'URL Verification',
+                    'result': result,
+                    'text_snippet': url_input
+                })
+        except Exception as e:
+            st.error(f"Error verifying URL: {str(e)}")
