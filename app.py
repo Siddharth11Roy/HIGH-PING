@@ -458,6 +458,26 @@ class NewsVerifier:
             'bloomberg.com',
             'washingtonpost.com',
             'aljazeera.com',
+            'timesofindia.indiatimes.com',
+            'ndtv.com',
+            'indianexpress.com',
+            'hindustantimes.com',
+            'thehindu.com',
+            'news18.com',
+            'india.com',
+            'economictimes.indiatimes.com',
+            'livemint.com',
+            'deccanherald.com',
+            'tribuneindia.com',
+            'telegraphindia.com',
+            'theprint.in',
+            'thequint.com',
+            'scroll.in',
+            'aajtak.in',
+            'zeenews.india.com',
+            'thewire.in',
+            'businessstandard.com',
+            'indiatoday.in'
         }
 
     def verify_url(self, url):
