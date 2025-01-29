@@ -227,7 +227,7 @@ import time
 import logging
 from streamlit_lottie import st_lottie
 import requests
-
+from urllib.parse import urlparse
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -324,6 +324,46 @@ def analyze_ai_content(text, model, vectorizer):
     except Exception as e:
         st.error(f"Error in AI content analysis: {str(e)}")
         return None
+
+
+class NewsVerifier:
+    def __init__(self):
+        self.news_domains = {
+            'reuters.com',
+            'apnews.com',
+            'bbc.com',
+            'nytimes.com',
+            'cnn.com',
+            'theguardian.com',
+            'wsj.com',
+            'bloomberg.com',
+            'washingtonpost.com',
+            'aljazeera.com',
+        }
+
+    def verify_url(self, url):
+        try:
+            if not url.startswith(('http://', 'https://')):
+                url = 'https://' + url
+            
+            domain = urlparse(url).netloc.lower()
+            if domain.startswith('www.'):
+                domain = domain[4:]
+            
+            is_news_domain = any(domain.endswith(news_domain) for news_domain in self.news_domains)
+            
+            if not is_news_domain:
+                return "FAKE"
+            
+            response = requests.get(
+                url, 
+                timeout=10,
+                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+            )
+            
+            return "REAL" if response.status_code == 200 else "FAKE"
+        except requests.exceptions.RequestException:
+            return "FAKE"
 
 # Load animations
 lottie_news = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_zdtukd5q.json")
@@ -476,3 +516,48 @@ if st.session_state.history:
     if st.button("🗑️ Clear History"):
         st.session_state.history = []
         st.experimental_rerun()
+
+
+st.markdown("---")  # Add a visual separator
+st.markdown("### 🔗 URL Verification")
+
+# Create a container for URL verification
+with st.container():
+    st.markdown("""
+    <div class="card">
+        <h4>Verify News URL</h4>
+        <p>Enter a news URL to verify if it's from a legitimate news source and if the article exists.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Create two columns for URL input and verification button
+    url_col, verify_col = st.columns([3, 1])
+    
+    with url_col:
+        url_input = st.text_input(
+            "Enter news URL:",
+            placeholder="https://www.example.com/news-article",
+            key="url_input"
+        )
+    
+    with verify_col:
+        verify_button = st.button("🔍 Verify URL", key="verify_url_button", use_container_width=True)
+
+    if verify_button and url_input:
+        with st.spinner("Verifying URL..."):
+            verifier = NewsVerifier()
+            result = verifier.verify_url(url_input)
+            
+            # Display result with appropriate styling
+            if result == "REAL":
+                st.success("✅ This appears to be a legitimate news article from a trusted source.")
+            else:
+                st.error("❌ This URL may not be from a trusted news source or the article might not exist.")
+            
+            # Add to history
+            st.session_state.history.append({
+                'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+                'analysis_type': 'URL Verification',
+                'result': result,
+                'text_snippet': url_input
+            })
