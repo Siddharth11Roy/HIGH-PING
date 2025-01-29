@@ -539,10 +539,16 @@ if st.session_state.history:
         st.experimental_rerun()
 
 
-st.markdown("---")  # Add a visual separator
+st.markdown("---")
 st.markdown("### 🔗 URL Verification")
 
-# Create a container for URL verification
+# Add decorative image instead of white space
+st.markdown("""
+    <div style='text-align: center; margin: 20px 0;'>
+        <img src="/api/placeholder/800/200" alt="News Verification Banner" style="width: 100%; border-radius: 10px; margin-bottom: 20px;"/>
+    </div>
+""", unsafe_allow_html=True)
+
 with st.container():
     st.markdown("""
     <div class="card">
@@ -551,17 +557,15 @@ with st.container():
     </div>
     """, unsafe_allow_html=True)
     
-    # Create two columns for URL input and verification button
-    url_col, verify_col = st.columns([3, 1])
+    # Single column layout for URL input
+    url_input = st.text_input(
+        "Enter news URL:",
+        placeholder="https://www.example.com/news-article",
+        key="url_input"
+    )
     
-    with url_col:
-        url_input = st.text_input(
-            "Enter news URL:",
-            placeholder="https://www.example.com/news-article",
-            key="url_input"
-        )
-    
-    with verify_col:
+    # Center the verify button below the input
+    with col2:
         verify_button = st.button("🔍 Verify URL", key="verify_url_button", use_container_width=True)
 
     if verify_button and url_input:
