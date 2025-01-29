@@ -536,7 +536,7 @@ if st.session_state.history:
     # Clear history button
     if st.button("🗑️ Clear History"):
         st.session_state.history = []
-        st.experimental_rerun()
+        st.rerun()
 
 
 st.markdown("---")  # Add a visual separator
