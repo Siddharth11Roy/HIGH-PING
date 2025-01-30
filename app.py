@@ -153,7 +153,7 @@ def generate_headline(text, model, tokenizer):
 
 
 def generate_tweet(article_text):
-    return "⏳This Faeture is Under Construction ⏳"
+    return "⏳This Feature is Under Construction ⏳"
 
 # Initialize session state for history if it doesn't exist
 if 'history' not in st.session_state:
