@@ -318,7 +318,7 @@ if st.session_state.history:
         st.session_state.history = []
         st.rerun()
 
-url_animate = load_lottieurl("https://lottie.host/6be91091-7459-49c8-8dfe-61a43ff3609a/qc9LIEmgAC.lottie")
+url_animate = load_lottieurl("https://lottie.host/embed/e3f9a794-38c1-4c52-a873-fadb6bb70474/bW08zRB8jG.json")
 
 st.markdown("---")  # Add a visual separator
 st.markdown("### 🔗 URL Verification")
