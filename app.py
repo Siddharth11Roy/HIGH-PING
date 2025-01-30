@@ -318,19 +318,31 @@ if st.session_state.history:
         st.session_state.history = []
         st.rerun()
 
+url_animate = load_lottieurl("https://lottie.host/6be91091-7459-49c8-8dfe-61a43ff3609a/qc9LIEmgAC.lottie")
 
 st.markdown("---")  # Add a visual separator
 st.markdown("### 🔗 URL Verification")
 
 # Create a container for URL verification
+# with st.container():
+#     st.markdown("""
+#     <div class="card" style="background-color: cyan; padding: 15px; border-radius: 10px;text-align: center; border: 3px solid blue;">
+#         <h4 style="color:black;">Verify News URL</h4>
+#         <p style = "color: black;">Enter a news URL to verify if it's from a legitimate news source and if the article exists.</p>
+#     </div>
+#     """, unsafe_allow_html=True)
+
 with st.container():
-    st.markdown("""
-    <div class="card" style="background-color: cyan; padding: 15px; border-radius: 10px;text-align: center; border: 3px solid blue;">
-        <h4 style="color:black;">Verify News URL</h4>
-        <p style = "color: black;">Enter a news URL to verify if it's from a legitimate news source and if the article exists.</p>
-    </div>
-    """, unsafe_allow_html=True)
+    # Display the Lottie animation instead of the card
+    st_lottie(url_animate, height=200, key="news_animation")  # Adjust height as needed
     
+    # Instruction text
+    st.markdown("""
+        <h4 style="color:black; text-align:center;">Verify News URL</h4>
+        <p style="color:black; text-align:center;">
+            Enter a news URL to verify if it's from a legitimate news source and if the article exists.
+        </p>
+    """, unsafe_allow_html=True)
     # Create two columns for URL input and verification button
     url_col, verify_col = st.columns([3, 1])
     
